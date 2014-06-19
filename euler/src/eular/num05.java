@@ -1,5 +1,9 @@
 package eular;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class num05 {
 
 	/**
@@ -11,7 +15,32 @@ public class num05 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//123
+		int num = 1;
+		
+		Set<Integer> a = new HashSet<Integer>();
+		for(int i = 2; i<=20 ; i++){
+			int q = 2;
+			System.out.println("!!!q = "+ q + " , i = "+i);
+			while(i>=q){
+				if(i%q == 0){
+					a.add(i);
+					i = i/q;
+				}else{
+					q++;
+				}
+				System.out.println("###q = "+ q + " , i = "+i);
+			}
+		}
+		
+		System.out.println(a);
+		
+		Iterator<Integer> c = a.iterator();
+		
+		while(c.hasNext()){
+			num *= c.next();
+		}
+		
+		System.out.println("num = "+num);
 	}
 
 }
