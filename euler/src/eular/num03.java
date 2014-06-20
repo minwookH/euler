@@ -28,6 +28,7 @@ public class num03 {
 				i++;
 			}
 		}
+		System.out.println("c : "+c);
 		System.out.println("i = "+i+" , n = "+n);
 	}
 
