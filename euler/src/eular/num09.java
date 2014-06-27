@@ -13,7 +13,15 @@ public class num09 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		int i = 1, j=1, k=1;
 
+		for(i = 1 ; i<=998 ; i++){
+			for(j = 2; j<=998-j ; j++){
+				k = 1000-i-j;
+				if(i*i + j*j == k*k && i<j){
+					System.out.println("i, j, k = " + i+", "+j+", "+k+"  - 곱 : "+i*j*k);
+				}
+			}
+		}
 	}
-
 }
