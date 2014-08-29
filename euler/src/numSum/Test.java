@@ -9,7 +9,11 @@ public class Test {
 	 * @작성일         : 2014. 8. 1.
 	 * @작성자         : HeoMinWook
 	 * @Method 설명    :
-	 *
+	 *	1, 2, 4, 7, 9 → 176
+        1, 2, 3, 1, 2, 3 → 246
+        1, 2, 3, 4, 5, 6, 7 → 1603
+        0, 1, 2, 3, 0, 1, 2, 3, 4 → 11257
+        0, 0, 1 → -1
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -20,9 +24,22 @@ public class Test {
 		String input4 = "0,1,2,3,0,1,2,3,4";
 		String input5 = "0,0,1";
 		
-		int count = 0;
+		String[] num1 = input1.split(",");
+		String[] num2 = input2.split(",");
+		String[] num3 = input3.split(",");
+		String[] num4 = input4.split(",");
+		String[] num5 = input5.split(",");
 		
-		String[] num = input4.split(",");
+		numSum(num1);
+		numSum(num2);
+		numSum(num3);
+		numSum(num4);
+		numSum(num5);
+		
+	}
+	
+	public static void numSum(String[] num){
+		int count = 0;
 		
 		int[] intNum = new int[num.length];
 		ArrayList<Integer> a = new ArrayList<Integer>();
@@ -51,42 +68,69 @@ public class Test {
 		double rightNum =0;
 		
 		int left = num.length-count;
-		System.out.println("num : "+num.length+" , count : "+ count);
+		//System.out.println("num : "+num.length+" , count : "+ count);
 		int right = count;
-		int zeroCount=0;
 		
 		int i = 0;
-		
+		int j = 1;
 		boolean leftTime = true;
-		while(left > 0){
+		while(left > -1){
 			
 			if(a.get(i) == 0){
 				zero.add(a.get(i));
 				a.remove(i);
-			}else{
+			}else if(!zero.isEmpty() && (leftNum != 0 && rightNum != 0)){
 				if(leftTime){
-					System.out.println("왼쪽 수 : "+left);
-					System.out.println("자리 수 : "+Math.pow(10, left-1));
+					left--;
+					leftTime = false;
+					zero.remove(i);
+					//System.out.println("제로 왼쪽");
+					
+				}else{
+					right--;
+					leftTime = true;
+					zero.remove(i);
+					//System.out.println("제로 오른쪽");
+
+				}
+				//System.out.println(j+" 번째 = "+ "left : "+leftNum+" , right : "+rightNum);
+				j++;
+			}else if(!a.isEmpty()){
+				if(leftTime){
+					//System.out.println("왼쪽 수 : "+left);
+					//System.out.println("자리 수 : "+Math.pow(10, left-1));
 					leftNum = leftNum + (a.get(i)*Math.pow(10, left-1));
 					left--;
 					leftTime = false;
+					
 				}else{
-					System.out.println("오른쪽 수 : "+right);
-					System.out.println("자리 수 : "+Math.pow(10, right-1));
+					//System.out.println("오른쪽 수 : "+right);
+					//System.out.println("자리 수 : "+Math.pow(10, right-1));
 					rightNum = rightNum + (a.get(i)*Math.pow(10, right-1));
 					right--;
 					leftTime = true;
+
 				}
+				a.remove(i);
+				
+				//System.out.println(j+" 번째 = "+ "left : "+leftNum+" , right : "+rightNum);
+				j++;
 			}
 			
-			if(zero.size() == num.length-1){
+			
+			/*if(zero.size() == num.length-1){
+				System.out.println(-1);
+				break;
+			}*/
+			
+			//System.out.println(a);
+			if(a.isEmpty()){
 				System.out.println(-1);
 				break;
 			}
 		}
 		
 		System.out.println("left : "+leftNum+" , right : "+rightNum+" sum = "+(leftNum+rightNum));
-		
 	}
 	
 	static void quickSort(int[] list, int left, int right) 
