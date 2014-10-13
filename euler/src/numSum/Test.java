@@ -1,20 +1,19 @@
 package numSum;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Test {
 
 	/**
-	 * @Method Name    : main
-	 * @작성일         : 2014. 8. 1.
-	 * @작성자         : HeoMinWook
-	 * @Method 설명    :
 	 *	1, 2, 4, 7, 9 → 176
         1, 2, 3, 1, 2, 3 → 246
         1, 2, 3, 4, 5, 6, 7 → 1603
         0, 1, 2, 3, 0, 1, 2, 3, 4 → 11257
         0, 0, 1 → -1
-	 * @param args
+	 * 
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -23,147 +22,98 @@ public class Test {
 		String input3 = "1,2,3,4,5,6,7";
 		String input4 = "0,1,2,3,0,1,2,3,4";
 		String input5 = "0,0,1";
+		String input6 = "0,0,0,0,3,0,0,1,4";
 		
 		String[] num1 = input1.split(",");
 		String[] num2 = input2.split(",");
 		String[] num3 = input3.split(",");
 		String[] num4 = input4.split(",");
 		String[] num5 = input5.split(",");
+		String[] num6 = input6.split(",");
 		
 		numSum(num1);
 		numSum(num2);
 		numSum(num3);
 		numSum(num4);
 		numSum(num5);
+		numSum(num6);
 		
 	}
 	
+	/**
+	 * 두 수의 합
+	 * 
+	 * 입력된 숫자들의 수를 반으로 쪼개서 두개의 숫자로 만든다.
+	 * 작은 숫자부터 앞자리에 넣는다
+	 * 만들어진 두수를 더하면 최소값이 된다.
+	*/
 	public static void numSum(String[] num){
+
+		ArrayList<Integer> numList = new ArrayList<Integer>();
+		
+		for(int i=0; i<num.length ; i++){
+			numList.add(Integer.parseInt(num[i]));
+		}
+		
+		System.out.print(numList);
+		
+		//quickSort(numList, 0, num.length-1);// 정렬
+		
+		Collections.sort(numList);
+		System.out.print(numList);
+		
 		int count = 0;
+		count = num.length / 2;// 입력된 개수를 두개로 나누기 위한 수
+		ArrayList<Integer> zero = new ArrayList<Integer>();// 0을 담아둘 리스트
 		
-		int[] intNum = new int[num.length];
-		ArrayList<Integer> a = new ArrayList<Integer>();
+		int leftNum =0; // 왼쪽 수
+		int rightNum =0; // 오른쪽 수
 		
-		for(int i=0; i<num.length ; i++){
-			a.add(Integer.parseInt(num[i]));
-			intNum[i] = Integer.parseInt(num[i]);
-		}
-		/*
-		for(int i=0; i<num.length ; i++){
-			System.out.println(num[i]);
-		}
-		System.out.println("----------------");
-		for(int i=0; i<num.length ; i++){
-			System.out.println(intNum[i]);
-		}*/
-		quickSort(a, 0, num.length-1);
+		int left = num.length-count; // 왼쪽수의 자리수
+		int right = count; // 오른쪽수의 자리수
 		
-		System.out.println(a);
-		
-		count = num.length / 2;
-			
-		ArrayList<Integer> zero = new ArrayList<Integer>();
-		
-		double leftNum =0;
-		double rightNum =0;
-		
-		int left = num.length-count;
-		//System.out.println("num : "+num.length+" , count : "+ count);
-		int right = count;
-		
-		int i = 0;
-		int j = 1;
-		boolean leftTime = true;
-		while(left > -1){
-			
-			if(a.get(i) == 0){
-				zero.add(a.get(i));
-				a.remove(i);
-			}else if(!zero.isEmpty() && (leftNum != 0 && rightNum != 0)){
+		int i = 0; // numList의 인댁스
+		boolean leftTime = true; // 왼쪽수와 오른쪽수에 번갈아 가면서 숫자를 넣어주기 위한 체크값
+		while(!numList.isEmpty()){
+			if(numList.get(i) == 0){//0이면 zero리스트에 추가하고, 숫자리스트에서 삭제
+				zero.add(numList.get(i));
+				numList.remove(i);
+			}else if(!zero.isEmpty() && (leftNum != 0 && rightNum != 0)){ // zero리스트에 0이 있고, 왼쪽수와 오른쪽수 모두 0이 아닐때
 				if(leftTime){
-					left--;
-					leftTime = false;
-					zero.remove(i);
-					//System.out.println("제로 왼쪽");
-					
+					left--;// 자리수 줄이기
+					leftTime = false;// 오른쪽수로 넘기기 위한 체크
+					zero.remove(i);// zero 리스트에서 0 하나 빼기
 				}else{
-					right--;
-					leftTime = true;
-					zero.remove(i);
-					//System.out.println("제로 오른쪽");
+					right--;// 자리수 줄이기
+					leftTime = true;// 왼쪽수로 넘기기 위한 체크
+					zero.remove(i);// zero 리스트에서 0 하나 빼기
+				}
+			}else if(!numList.isEmpty()){// 숫자 리스트가 비어있지 않다면
+				if(leftTime){
+					leftNum = leftNum + (numList.get(i) * (int)Math.pow(10, left-1));// 왼쪽수 * 자리수
+					left--;// 자리수 줄이기
+					leftTime = false;// 오른쪽수로 넘기기 위한 체크
+				}else{
+					rightNum = rightNum + (numList.get(i) * (int)Math.pow(10, right-1));// 오른쪽수 * 자리수
+					right--;// 자리수 줄이기
+					leftTime = true;// 왼쪽수로 넘기기 위한 체크
 
 				}
-				//System.out.println(j+" 번째 = "+ "left : "+leftNum+" , right : "+rightNum);
-				j++;
-			}else if(!a.isEmpty()){
-				if(leftTime){
-					//System.out.println("왼쪽 수 : "+left);
-					//System.out.println("자리 수 : "+Math.pow(10, left-1));
-					leftNum = leftNum + (a.get(i)*Math.pow(10, left-1));
-					left--;
-					leftTime = false;
-					
-				}else{
-					//System.out.println("오른쪽 수 : "+right);
-					//System.out.println("자리 수 : "+Math.pow(10, right-1));
-					rightNum = rightNum + (a.get(i)*Math.pow(10, right-1));
-					right--;
-					leftTime = true;
+				numList.remove(i);// 숫자 리스트에서 숫자 삭제
+			}
 
-				}
-				a.remove(i);
-				
-				//System.out.println(j+" 번째 = "+ "left : "+leftNum+" , right : "+rightNum);
-				j++;
-			}
-			
-			
-			/*if(zero.size() == num.length-1){
-				System.out.println(-1);
-				break;
-			}*/
-			
-			//System.out.println(a);
-			if(a.isEmpty()){
-				System.out.println(-1);
-				break;
-			}
+		}
+		if(leftNum ==0 || rightNum == 0){// 숫자 2개를 만들수 없다면
+			System.out.println(" -> " + -1);
+		}else{
+			System.out.println(" -> " + +(leftNum+rightNum));
 		}
 		
-		System.out.println("left : "+leftNum+" , right : "+rightNum+" sum = "+(leftNum+rightNum));
+		System.out.println();
 	}
 	
-	static void quickSort(int[] list, int left, int right) 
-	{
-		int pivot, i, j, temp;
-
-		if (left < right) 
-		{
-			i = left;
-			j = right;
-			pivot = list[left];
-
-			while (i < j) 
-			{
-				while (list[j] > pivot)
-					j--;
-				while (i < j && list[i] <= pivot)
-					i++;
-
-				temp = list[i];
-				list[i] = list[j];
-				list[j] = temp;
-			}
-			
-			list[left] = list[j];
-			list[j] = pivot;
-
-			quickSort(list, left, j - 1);
-			quickSort(list, j + 1, right);
-		}
-	}
 	
-	static void quickSort(ArrayList<Integer> list, int left, int right) 
+	public static void quickSort(ArrayList<Integer> list, int left, int right) 
 	{
 		int pivot, i, j, temp;
 
