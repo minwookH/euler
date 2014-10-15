@@ -1,5 +1,8 @@
 package dih;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Solution02 {
 
 	/**
@@ -56,7 +59,35 @@ public class Solution02 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		
+		Scanner numInput = new Scanner(System.in);
+		
+		
+		int caseNum = numInput.nextInt();
+		ArrayList<Integer> h = new ArrayList<Integer>();
+		
+		for(int i=0; i<caseNum; i++){
+			h.add(numInput.nextInt());
+		}
+		
+		for(int k=0;k<h.size();k++){
+			int start = 1;
+			boolean b = true;
+			for(int j=0; j<h.get(k) ; j++){
+				if(h.get(k) == 0){
+					System.out.println("브레이크");
+					break;
+				}else if(b){
+					start=start*2;
+					b = false;
+				}else{
+					start++;
+					b = true;
+				}
+			}
+			System.out.println("길이 : "+ start);
+		}
+		
 	}
 
 }
