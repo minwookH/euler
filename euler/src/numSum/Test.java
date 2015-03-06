@@ -8,6 +8,11 @@ import java.util.Collections;
 public class Test {
 
 	/**
+	 * 1. 주어진 숫자들을 이용하여 2개의 숫자를 만든다.
+	 * 2. 두수를 더하여 최소값이 나오도록한다.
+	 * 3. 0은 맨 앞에 올 수 업ㅄ다.
+	 * 4. 두수를 만들 수 업는 경우(ex. 한 쪽이 0) -1을 반환
+	 * 
 	 *	1, 2, 4, 7, 9 → 176
         1, 2, 3, 1, 2, 3 → 246
         1, 2, 3, 4, 5, 6, 7 → 1603
@@ -41,7 +46,7 @@ public class Test {
 	}
 	
 	/**
-	 * 두 수의 합
+	 * 
 	 * 
 	 * 입력된 숫자들의 수를 반으로 쪼개서 두개의 숫자로 만든다.
 	 * 작은 숫자부터 앞자리에 넣는다
@@ -55,12 +60,12 @@ public class Test {
 			numList.add(Integer.parseInt(num[i]));
 		}
 		
-		System.out.print(numList);
+		System.out.println(numList);
 		
-		//quickSort(numList, 0, num.length-1);// 정렬
+		//quickSort(numList, 0, num.length-1);
 		
-		Collections.sort(numList);
-		System.out.print(numList);
+		Collections.sort(numList);// 정렬
+		System.out.print("정렬 : "+numList);
 		
 		int count = 0;
 		count = num.length / 2;// 입력된 개수를 두개로 나누기 위한 수
@@ -106,14 +111,14 @@ public class Test {
 		if(leftNum ==0 || rightNum == 0){// 숫자 2개를 만들수 없다면
 			System.out.println(" -> " + -1);
 		}else{
-			System.out.println(" -> " + +(leftNum+rightNum));
+			System.out.println(" -> " + "leftNum("+leftNum+") + rightNum("+rightNum+") = " +(leftNum+rightNum));
 		}
 		
 		System.out.println();
 	}
 	
 	
-	public static void quickSort(ArrayList<Integer> list, int left, int right) 
+	/*public static void quickSort(ArrayList<Integer> list, int left, int right) 
 	{
 		int pivot, i, j, temp;
 
@@ -140,5 +145,5 @@ public class Test {
 			quickSort(list, left, j - 1);
 			quickSort(list, j + 1, right);
 		}
-	}
+	}*/
 }
